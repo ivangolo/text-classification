@@ -1,1 +1,3 @@
+.vscode/
 embeddings/
+**/**/__pycache__/
