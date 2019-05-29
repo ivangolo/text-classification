@@ -65,6 +65,35 @@ def remove_extra_whites(text):
     return ' '.join(text.split())
 
 
+def remove_repeated_vowels(text):
+    """Remove repeated vowels from each word."""
+    return re.sub(r'([aeiou])\1+', r'\1', text, re.UNICODE)
+
+
+def remove_repeated_consonants(text):
+    """Remove repeated consonants from each word."""
+    return re.sub(r'([bcdfghjkmnpqstvwxyz])\1+', r'\1', text, re.UNICODE)
+
+
+def remove_repeated_consonants_spa(text):
+    """
+    In spanish there are words written with double l or double r.
+    We give them a special treatment.
+    """
+    return re.sub(r'([lr])\1\1+', r'\1\1', text, re.UNICODE)
+
+
+def remove_repeated_chars(text):
+    text = remove_repeated_vowels(text)
+    text = remove_repeated_consonants(text)
+    return remove_repeated_consonants_spa(text)
+
+
+def remove_laugh(text):
+    """Remove laughing expressions such as ajaja... jajaj, etc."""
+    return re.sub(r'\b(?:a*(?:ja)+j?|(?:l+o+)+l+)\b', ' ', text, re.UNICODE)
+
+
 def normalize(text):
     text = remove_tweet_user_mentions(text)
     text = remove_tweet_hashtags(text)
@@ -72,7 +101,7 @@ def normalize(text):
     text = to_lower(text)
     text = remove_punctuation(text)
     text = remove_stopwords(text)
-    text = remove_emojis(text)
+    # text = remove_emojis(text)
     text = remove_numbers(text)
     text = remove_extra_whites(text)
     return text
