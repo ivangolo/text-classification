@@ -94,14 +94,29 @@ def remove_laugh(text):
     return re.sub(r'\b(?:a*(?:ja)+j?|(?:l+o+)+l+)\b', ' ', text, re.UNICODE)
 
 
-def normalize(text):
-    text = remove_tweet_user_mentions(text)
-    text = remove_tweet_hashtags(text)
-    text = remove_links(text)
+def normalize(text,
+              no_tweet_user_mentions=True,
+              no_tweet_hashtags=True,
+              no_links=True,
+              no_punctuation=True,
+              no_stopwords=True,
+              no_numbers=True,
+              no_emojis=True):
+
     text = to_lower(text)
-    text = remove_punctuation(text)
-    text = remove_stopwords(text)
-    # text = remove_emojis(text)
-    text = remove_numbers(text)
+    if no_tweet_user_mentions:
+        text = remove_tweet_user_mentions(text)
+    if no_tweet_hashtags:
+        text = remove_tweet_hashtags(text)
+    if no_links:
+        text = remove_links(text)
+    if no_punctuation:
+        text = remove_punctuation(text)
+    if no_stopwords:
+        text = remove_stopwords(text)
+    if no_emojis:
+        text = remove_emojis(text)
+    if no_numbers:
+        text = remove_numbers(text)
     text = remove_extra_whites(text)
     return text
